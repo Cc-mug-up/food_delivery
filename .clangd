@@ -1,0 +1,7 @@
+CompileFlags:
+  Add:
+    - "-std=c++17"
+    - "-Iserver/include"
+    - "-IC:/Program Files/MySQL/MySQL Server 8.0/include"
+    - "-D_WIN32"
+    - "-D__GNUC__"

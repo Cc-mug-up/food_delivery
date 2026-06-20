@@ -5,7 +5,6 @@ tests/build/
 tests/build2/
 
 # IDE
-.vscode/
 .idea/
 
 # OS
