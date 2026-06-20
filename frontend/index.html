@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>校园外卖配送系统</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- ========== 顶部导航 ========== -->
+<header class="topbar">
+    <h1>🛵 校园外卖配送系统</h1>
+    <div class="topbar-right">
+        <span id="sse-status" class="badge badge-disconnected">● 推送离线</span>
+        <span id="clock">--:--:--</span>
+    </div>
+</header>
+
+<!-- ========== 主布局 ========== -->
+<main class="layout">
+
+    <!-- 左侧: 菜单 + 下单 -->
+    <section class="panel panel-left">
+        <h2>📋 今日菜单</h2>
+        <div id="menu-container" class="menu-grid">
+            <div class="loading">加载中...</div>
+        </div>
+
+        <hr>
+
+        <h2>🛒 购物车</h2>
+        <div id="cart-items" class="cart-list">
+            <p class="hint">请从菜单中添加菜品</p>
+        </div>
+        <div class="cart-total">
+            总计: <strong id="cart-total">¥0.00</strong>
+        </div>
+
+        <h2>📝 下单信息</h2>
+        <form id="order-form" class="order-form">
+            <label>姓名 <input type="text" id="cust-name" placeholder="请输入姓名" required></label>
+            <label>手机 <input type="tel" id="cust-phone" placeholder="11位手机号" maxlength="11" required></label>
+            <label>地址 <input type="text" id="cust-addr" placeholder="宿舍楼/教室号" required></label>
+            <label>备注 <input type="text" id="cust-remark" placeholder="口味偏好等(选填)"></label>
+            <button type="submit" id="submit-btn" class="btn btn-primary">立即下单 🚀</button>
+        </form>
+    </section>
+
+    <!-- 右侧: 订单大屏 + 列表 -->
+    <section class="panel panel-right">
+        <!-- 订单大屏 -->
+        <div class="big-screen" id="big-screen">
+            <h2>📺 实时订单大屏</h2>
+            <div class="screen-content" id="screen-content">
+                <div class="screen-placeholder">等待新订单...</div>
+            </div>
+        </div>
+
+        <!-- 统计卡片 -->
+        <div class="stats-row" id="stats-row">
+            <div class="stat-card">
+                <span class="stat-num" id="stat-today">0</span>
+                <span class="stat-label">今日订单</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num" id="stat-revenue">¥0</span>
+                <span class="stat-label">今日收入</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num" id="stat-pending">0</span>
+                <span class="stat-label">待处理</span>
+            </div>
+        </div>
+
+        <!-- 订单列表 -->
+        <h2>📦 订单列表</h2>
+        <div class="order-filters">
+            <select id="filter-status">
+                <option value="">全部状态</option>
+                <option value="pending">待确认</option>
+                <option value="confirmed">已确认</option>
+                <option value="preparing">备餐中</option>
+                <option value="delivering">配送中</option>
+                <option value="delivered">已送达</option>
+                <option value="cancelled">已取消</option>
+            </select>
+            <button id="refresh-btn" class="btn btn-sm">刷新</button>
+        </div>
+        <div id="order-list" class="order-list">
+            <p class="hint">暂无订单</p>
+        </div>
+    </section>
+
+</main>
+
+<!-- ========== Toast 通知 ========== -->
+<div id="toast-container"></div>
+
+<!-- ========== 新订单弹窗动画 ========== -->
+<div id="order-popup" class="order-popup hidden">
+    <div class="popup-content">
+        <div class="popup-icon">🛎️</div>
+        <div class="popup-title">新订单!</div>
+        <div class="popup-order-no" id="popup-order-no"></div>
+        <div class="popup-info" id="popup-info"></div>
+    </div>
+</div>
+
+<script src="/js/notify.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>

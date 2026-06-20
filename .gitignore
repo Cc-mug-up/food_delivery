@@ -1,0 +1,26 @@
+# Build directories
+server/build/
+server/build2/
+tests/build/
+tests/build2/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Binary files
+*.exe
+*.dll
+*.o
+*.obj
+
+# Benchmark reports
+benchmark_report.json

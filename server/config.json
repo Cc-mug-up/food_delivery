@@ -1,0 +1,27 @@
+{
+    "server": {
+        "port": 8080,
+        "max_connections": 10000,
+        "connection_timeout_sec": 30,
+        "static_dir": "./frontend"
+    },
+    "thread_pool": {
+        "min_threads": 4,
+        "max_threads": 16
+    },
+    "database": {
+        "host": "127.0.0.1",
+        "port": 3306,
+        "user": "root",
+        "password": "134121",
+        "database": "food_delivery",
+        "min_connections": 2,
+        "max_connections": 20,
+        "connect_timeout_sec": 5
+    },
+    "logging": {
+        "level": "info",
+        "log_dir": "./logs",
+        "max_file_size_mb": 10
+    }
+}
