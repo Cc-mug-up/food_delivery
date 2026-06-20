@@ -329,13 +329,7 @@ void Server::handle_write(int fd) {
 
     auto& conn = it->second;
 
-    if (conn->state == ConnState::SSE) {
-        // SSE 连接: 保持打开, 不做额外写入 (由 PushManager 广播)
-        epoll_rearm(epoll_inst_, fd);
-        return;
-    }
-
-    // 写入响应数据
+    // 先写缓冲区 (所有连接都需要——SSE 的 HTTP 响应头也要先发给浏览器)
     size_t remaining = conn->write_buffer.size() - conn->write_offset;
     if (remaining > 0) {
         ssize_t n = send(fd, conn->write_buffer.data() + conn->write_offset, remaining, 0);
@@ -348,8 +342,18 @@ void Server::handle_write(int fd) {
         }
     }
 
-    if (conn->write_offset >= conn->write_buffer.size()) {
-        // 全部写完
+    bool all_sent = (conn->write_offset >= conn->write_buffer.size());
+
+    // SSE 长连接: 初始响应头发送完后, 保持连接, 后续由 PushManager 广播事件
+    if (conn->state == ConnState::SSE) {
+        if (all_sent) {
+            epoll_rearm(epoll_inst_, fd);
+        }
+        return;
+    }
+
+    // 普通连接: 全部写完则清理或重置
+    if (all_sent) {
         if (conn->state == ConnState::Closing) {
             cleanup_connection(fd);
         } else {
